@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Hệ thống đánh giá rủi ro tín dụng cá nhân - Personal Credit Risk Assessment System">
+    <title>Credit Risk Assessment System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ======================================================================
+           DESIGN SYSTEM - CSS Custom Properties
+           ====================================================================== */
+        :root {
+            /* Primary finance palette */
+            --primary-900: #0a1628;
+            --primary-800: #0f2440;
+            --primary-700: #143358;
+            --primary-600: #1a4270;
+            --primary-500: #1e5090;
+            --primary-400: #2a6cb8;
+            --primary-300: #4a8fd4;
+            --primary-200: #7eb3e8;
+            --primary-100: #c0d8f5;
+            --primary-50: #e8f1fb;
+
+            /* Accent / Success green */
+            --green-600: #0d7a3e;
+            --green-500: #10a050;
+            --green-400: #22c55e;
+            --green-300: #4ade80;
+            --green-100: #dcfce7;
+
+            /* Warning / Risk colors */
+            --yellow-500: #eab308;
+            --yellow-400: #facc15;
+            --yellow-100: #fef9c3;
+            --orange-500: #f97316;
+            --orange-400: #fb923c;
+            --orange-100: #ffedd5;
+            --red-600: #dc2626;
+            --red-500: #ef4444;
+            --red-400: #f87171;
+            --red-100: #fee2e2;
+
+            /* Neutral */
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-500: #6b7280;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-200: #e5e7eb;
+            --gray-100: #f3f4f6;
+            --gray-50: #f9fafb;
+            --white: #ffffff;
+
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+            /* Spacing */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+
+            /* Shadow */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --shadow-glow-green: 0 0 25px rgba(34, 197, 94, 0.3);
+            --shadow-glow-yellow: 0 0 25px rgba(234, 179, 8, 0.3);
+            --shadow-glow-orange: 0 0 25px rgba(249, 115, 22, 0.3);
+            --shadow-glow-red: 0 0 25px rgba(239, 68, 68, 0.3);
+
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-normal: 250ms ease;
+            --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ======================================================================
+           RESET & BASE
+           ====================================================================== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 15px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(160deg, var(--primary-900) 0%, var(--primary-800) 40%, #0c2d4a 100%);
+            color: var(--gray-100);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle grid background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(42, 108, 184, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(16, 160, 80, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ======================================================================
+           HEADER
+           ====================================================================== */
+        .header {
+            text-align: center;
+            padding: 28px 20px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header__badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green-400);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--white) 0%, var(--primary-200) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        /* ======================================================================
+           MAIN LAYOUT - 3 Columns
+           ====================================================================== */
+        .app-layout {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+            gap: 20px;
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ======================================================================
+           CARD COMPONENT
+           ====================================================================== */
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            transition: var(--transition-normal);
+        }
+
+        .card:hover {
+            border-color: rgba(255, 255, 255, 0.14);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card__title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--primary-300);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card__title .icon {
+            font-size: 1rem;
+        }
+
+        /* ======================================================================
+           LEFT PANEL - Feature Importance
+           ====================================================================== */
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .feature-item__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .feature-item__name {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--gray-200);
+        }
+
+        .feature-item__level {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 2px 8px;
+            border-radius: 50px;
+        }
+
+        .feature-item__level--very-high {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--red-400);
+        }
+
+        .feature-item__level--high {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--orange-400);
+        }
+
+        .feature-item__level--medium {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--yellow-400);
+        }
+
+        .feature-item__level--low {
+            background: rgba(42, 108, 184, 0.15);
+            color: var(--primary-300);
+        }
+
+        .feature-item__bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .feature-item__bar-fill {
+            height: 100%;
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-item__bar-fill--very-high {
+            background: linear-gradient(90deg, var(--red-500), var(--red-400));
+            width: 95%;
+        }
+
+        .feature-item__bar-fill--high {
+            background: linear-gradient(90deg, var(--orange-500), var(--orange-400));
+            width: 80%;
+        }
+
+        .feature-item__bar-fill--medium {
+            background: linear-gradient(90deg, var(--yellow-500), var(--yellow-400));
+            width: 55%;
+        }
+
+        .feature-item__bar-fill--low {
+            background: linear-gradient(90deg, var(--primary-500), var(--primary-300));
+            width: 30%;
+        }
+
+        .feature-item__bar-fill--risk-up {
+            background: linear-gradient(90deg, var(--red-500), var(--red-400));
+        }
+
+        .feature-item__bar-fill--risk-down {
+            background: linear-gradient(90deg, var(--green-500), var(--green-300));
+        }
+
+        .feature-item__bar-fill--neutral {
+            background: linear-gradient(90deg, var(--yellow-500), var(--yellow-400));
+        }
+
+        /* ======================================================================
+           CENTER PANEL - Input Form
+           ====================================================================== */
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .form-section__heading {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-section__heading .icon {
+            font-size: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--gray-200);
+        }
+
+        .form-group .helper {
+            font-size: 0.68rem;
+            color: var(--gray-500);
+            line-height: 1.35;
+        }
+
+        .form-group input,
+        .form-group select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: var(--white);
+            font-family: var(--font-family);
+            font-size: 0.85rem;
+            padding: 10px 14px;
+            outline: none;
+            transition: var(--transition-fast);
+            width: 100%;
+        }
+
+        .form-group input::placeholder {
+            color: var(--gray-500);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary-400);
+            box-shadow: 0 0 0 3px rgba(42, 108, 184, 0.2);
+        }
+
+        .form-group input.input-error,
+        .form-group select.input-error {
+            border-color: var(--red-500);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+        }
+
+        .form-group select option {
+            background: var(--primary-800);
+            color: var(--white);
+        }
+
+        .error-msg {
+            font-size: 0.68rem;
+            color: var(--red-400);
+            min-height: 1em;
+            transition: var(--transition-fast);
+        }
+
+        /* Warning banners */
+        .warning-banner {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            font-size: 0.78rem;
+            font-weight: 500;
+            margin-top: 6px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .warning-banner.show {
+            display: flex;
+        }
+
+        .warning-banner--red {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: var(--red-400);
+        }
+
+        .warning-banner--yellow {
+            background: rgba(234, 179, 8, 0.12);
+            border: 1px solid rgba(234, 179, 8, 0.25);
+            color: var(--yellow-400);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Predict button */
+        .btn-predict {
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px 28px;
+            font-family: var(--font-family);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--white);
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--green-600) 100%);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 80, 144, 0.4);
+        }
+
+        .btn-predict:active {
+            transform: translateY(0);
+        }
+
+        .btn-predict.loading {
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        .btn-predict .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .btn-predict.loading .spinner {
+            display: inline-block;
+        }
+
+        .btn-predict.loading .btn-text {
+            opacity: 0.7;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ======================================================================
+           RIGHT PANEL - Prediction Result
+           ====================================================================== */
+        .result-panel {
+            align-self: stretch;
+        }
+
+        .result-placeholder {
+            text-align: center;
+            padding: 30px 10px;
+            color: var(--gray-500);
+            font-size: 0.82rem;
+        }
+
+        .result-placeholder .icon-big {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .result-content {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-content.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result-label {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .result-score-ring {
+            width: 110px;
+            height: 110px;
+            margin: 16px auto;
+            position: relative;
+        }
+
+        .result-score-ring svg {
+            transform: rotate(-90deg);
+        }
+
+        .result-score-ring .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-width: 8;
+        }
+
+        .result-score-ring .ring-fill {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease;
+        }
+
+        .result-score-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .result-reason {
+            font-size: 0.78rem;
+            color: var(--gray-300);
+            line-height: 1.5;
+            margin-top: 14px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .result-subcard {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .result-subcard__title {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--gray-200);
+            margin-bottom: 8px;
+        }
+
+        .impact-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.72rem;
+        }
+
+        .impact-table td {
+            padding: 4px 0;
+            vertical-align: top;
+        }
+
+        .impact-table td:first-child {
+            color: var(--gray-400);
+            padding-right: 8px;
+        }
+
+        /* Color themes for results */
+        .result--low {
+            --result-color: var(--green-400);
+            --result-glow: var(--shadow-glow-green);
+        }
+
+        .result--medium {
+            --result-color: var(--yellow-400);
+            --result-glow: var(--shadow-glow-yellow);
+        }
+
+        .result--high {
+            --result-color: var(--orange-400);
+            --result-glow: var(--shadow-glow-orange);
+        }
+
+        .result--reject {
+            --result-color: var(--red-400);
+            --result-glow: var(--shadow-glow-red);
+        }
+
+        .result-content .result-label {
+            color: var(--result-color);
+        }
+
+        .result-content .ring-fill {
+            stroke: var(--result-color);
+        }
+
+        .result-content .result-score-text {
+            color: var(--result-color);
+        }
+
+        .result-card-glow {
+            transition: box-shadow 0.5s ease;
+        }
+
+        /* Business Rules Block + Side Panel */
+        .br-wrapper {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 10;
+        }
+
+        .br-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-md);
+            color: var(--gray-300);
+            font-family: var(--font-family);
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .br-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.18);
+        }
+
+        .br-side {
+            display: none;
+            position: absolute;
+            top: 0;
+            right: calc(100% + 12px);
+            width: 320px;
+            background: var(--primary-800);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: var(--shadow-xl);
+            z-index: 50;
+            animation: brSlide 0.25s ease;
+            font-size: 0.78rem;
+            color: var(--gray-300);
+            line-height: 1.7;
+        }
+
+        .br-side.open { display: block; }
+
+        @keyframes brSlide {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .br-side h4 {
+            margin: 12px 0 4px;
+            font-size: 0.8rem;
+            color: var(--gray-200);
+        }
+
+        .br-side h4:first-child { margin-top: 0; }
+
+        .br-side ul {
+            margin: 0 0 0 16px;
+            padding: 0;
+        }
+
+        .br-side li { margin-bottom: 3px; }
+
+        /* ======================================================================
+           RESPONSIVE
+           ====================================================================== */
+        @media (max-width: 1024px) {
+            .app-layout {
+                grid-template-columns: 1fr;
+                max-width: 640px;
+            }
+
+            .result-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            html {
+                font-size: 14px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ======================================================================
+           SCROLLBAR
+           ====================================================================== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ====================== HEADER ====================== -->
+    <header class="header">
+        <span class="header__badge">AIL304m · Credit Risk</span>
+        <h1>Hệ Thống Đánh Giá Rủi Ro Tín Dụng Cá Nhân</h1>
+        <p>Personal Credit Risk Assessment System — Demo</p>
+    </header>
+
+    <!-- ====================== MAIN 3-COL LAYOUT ====================== -->
+    <main class="app-layout">
+
+        <!-- ============ LEFT PANEL — Feature Importance ============ -->
+        <aside class="card">
+            <div class="card__title"><span class="icon">📊</span> Ảnh Hưởng Của Từng Trường</div>
+            <div class="feature-list" id="featureList">
+            </div>
+        </aside>
+
+        <!-- ============ CENTER PANEL — Input Form ============ -->
+        <section class="card">
+            <div class="card__title"><span class="icon">📥</span> Thông Tin Khoản Vay</div>
+            <form id="creditForm" autocomplete="off" novalidate>
+
+                <!-- === 1. Character (Uy tín) === -->
+                <div class="form-section">
+                    <div class="form-section__heading"><span class="icon">🛡️</span> Character (Uy tín)</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="pub_rec">Public Records (pub_rec)</label>
+                            <span class="helper">Số hồ sơ công khai tiêu cực (phá sản, phán quyết tòa…)</span>
+                            <input type="number" id="pub_rec" name="pub_rec" min="0" step="1" placeholder="VD: 0"
+                                value="0">
+                            <span class="error-msg" id="err_pub_rec"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="num_tl_90g_dpd_24m">Accounts 90+ Days Past Due (num_tl_90g_dpd_24m)</label>
+                            <span class="helper">Số tài khoản quá hạn >90 ngày trong 24 tháng qua</span>
+                            <input type="number" id="num_tl_90g_dpd_24m" name="num_tl_90g_dpd_24m" min="0" step="1"
+                                placeholder="VD: 0" value="0">
+                            <span class="error-msg" id="err_num_tl_90g_dpd_24m"></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === 2. Capacity (Khả năng trả nợ) === -->
+                <div class="form-section">
+                    <div class="form-section__heading"><span class="icon">💰</span> Capacity (Khả năng trả nợ)</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="annual_inc">Annual Income (annual_inc)</label>
+                            <span class="helper">Thu nhập hàng năm (USD)</span>
+                            <input type="number" id="annual_inc" name="annual_inc" min="0" step="100"
+                                placeholder="VD: 65000" value="65000">
+                            <span class="error-msg" id="err_annual_inc"></span>
+                            <div class="warning-banner warning-banner--yellow" id="warn_inc">
+                                ⚠️ <strong>Below minimum threshold</strong> — Thu nhập dưới ngưỡng tối thiểu ($25,000)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dti">Debt-to-Income Ratio (dti) %</label>
+                            <span class="helper">Tỷ lệ nợ trên thu nhập (Debt-to-Income)</span>
+                            <input type="number" id="dti" name="dti" min="0" max="100" step="0.01"
+                                placeholder="VD: 18.5" value="18.5">
+                            <span class="error-msg" id="err_dti"></span>
+                            <div class="warning-banner warning-banner--red" id="warn_dti">
+                                ⚠️ <strong>Very high risk</strong> — DTI vượt ngưỡng nguy hiểm (>45%)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loan_amnt">Loan Amount (loan_amnt)</label>
+                            <span class="helper">Số tiền khoản vay (USD)</span>
+                            <input type="number" id="loan_amnt" name="loan_amnt" min="1" step="100"
+                                placeholder="VD: 15000" value="15000">
+                            <span class="error-msg" id="err_loan_amnt"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="term">Loan Term (term)</label>
+                            <span class="helper">Kỳ hạn vay</span>
+                            <select id="term" name="term">
+                                <option value=" 36 months"> 36 months</option>
+                                <option value=" 60 months"> 60 months</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === 3. Capital & Collateral === -->
+                <div class="form-section">
+                    <div class="form-section__heading"><span class="icon">🏦</span> Capital & Collateral</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tot_cur_bal">Total Current Balance (tot_cur_bal)</label>
+                            <span class="helper">Tổng số dư hiện tại của tất cả tài khoản (USD)</span>
+                            <input type="number" id="tot_cur_bal" name="tot_cur_bal" min="0" step="100"
+                                placeholder="VD: 50000" value="50000">
+                            <span class="error-msg" id="err_tot_cur_bal"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="home_ownership">Home Ownership (home_ownership)</label>
+                            <span class="helper">Tình trạng sở hữu nhà</span>
+                            <select id="home_ownership" name="home_ownership">
+                                <option value="OWN">OWN — Sở hữu</option>
+                                <option value="MORTGAGE" selected>MORTGAGE — Thế chấp</option>
+                                <option value="RENT">RENT — Thuê</option>
+                                <option value="OTHER">OTHER — Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === 4. Conditions === -->
+                <div class="form-section">
+                    <div class="form-section__heading"><span class="icon">📋</span> Conditions</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="purpose">Loan Purpose (purpose)</label>
+                            <span class="helper">Mục đích vay</span>
+                            <select id="purpose" name="purpose">
+                                <option value="credit_card">Credit Card</option>
+                                <option value="debt_consolidation" selected>Debt Consolidation</option>
+                                <option value="home_improvement">Home Improvement</option>
+                                <option value="small_business">Small Business</option>
+                                <option value="medical">Medical</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="verification_status">Verification Status (verification_status)</label>
+                            <span class="helper">Trạng thái xác minh</span>
+                            <select id="verification_status" name="verification_status">
+                                <option value="Not Verified">Not Verified</option>
+                                <option value="Source Verified">Source Verified</option>
+                                <option value="Verified" selected>Verified</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- === Predict Button === -->
+                <button type="submit" class="btn-predict" id="btnPredict">
+                    <span class="spinner"></span>
+                    <span class="btn-text">🔍 Predict Risk</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- ============ RIGHT PANEL — Prediction Result ============ -->
+        <aside class="card result-panel result-card-glow" id="resultCard" style="position:relative;">
+            <div class="card__title"><span class="icon">📈</span> Prediction Result</div>
+
+            <div class="br-wrapper">
+                <button class="br-btn" onclick="document.getElementById('brSide').classList.toggle('open')">
+                    📋 Rules
+                </button>
+                <div class="br-side" id="brSide">
+                <h4>🚫 Từ chối (REJECT)</h4>
+                <ul><li>LTI ≥ 1.5 — Khoản vay vượt 150% thu nhập</li></ul>
+                <h4>🔍 Thẩm định thủ công (MANUAL REVIEW)</h4>
+                <ul>
+                    <li>Thu nhập < $25,000/năm</li>
+                    <li>DTI > 45%</li>
+                    <li>DTI > 40% & chưa Verified</li>
+                    <li>0.8 ≤ LTI < 1.5</li>
+                    <li>Mục đích: small_business / medical</li>
+                    <li>Nhà ở: OTHER / NONE</li>
+                </ul>
+                <h4>📝 Lưu ý</h4>
+                <ul>
+                    <li>LTI > 30%</li>
+                    <li>DTI 35–45%</li>
+                    <li>Kỳ hạn 60 tháng</li>
+                    <li>Chưa xác minh thu nhập</li>
+                    <li>Đang thuê nhà (RENT)</li>
+                    <li>Quá hạn 90+ ngày / public record xấu</li>
+                </ul>
+                <h4>💰 Loan Amount</h4>
+                <ul><li>Tối thiểu: $500</li></ul>
+            </div>
+        </div>
+
+            <div class="result-placeholder" id="resultPlaceholder">
+                <span class="icon-big">🎯</span>
+                Nhập thông tin và nhấn <strong>"Predict Risk"</strong> để xem kết quả đánh giá.
+            </div>
+
+            <!-- Manual Review / Reject display -->
+            <div id="resultReview" style="display:none; text-align:center; animation: fadeIn 0.5s ease;">
+                <div id="reviewIcon" style="font-size:2.4rem; margin-bottom:10px;"></div>
+                <div id="reviewLabel"
+                    style="font-size:1.3rem; font-weight:800; letter-spacing:1px; margin-bottom:12px;"></div>
+                <div id="reviewReasons" class="result-reason" style="text-align:left;"></div>
+            </div>
+
+            <div class="result-content" id="resultContent">
+                <div class="result-label" id="resultLabel">—</div>
+                <div class="result-score-ring">
+                    <svg width="110" height="110" viewBox="0 0 110 110">
+                        <circle class="ring-bg" cx="55" cy="55" r="46"></circle>
+                        <circle class="ring-fill" id="ringFill" cx="55" cy="55" r="46" stroke-dasharray="289.03"
+                            stroke-dashoffset="289.03"></circle>
+                    </svg>
+                    <div class="result-score-text" id="resultScore">0%</div>
+                </div>
+                <div class="result-reason" id="resultReason"></div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- ====================== JAVASCRIPT ====================== -->
+    <script>
+        'use strict';
+
+        // ======================================================================
+        // FEATURE IMPORTANCE DATA
+        // ======================================================================
+        let FEATURE_IMPORTANCE = [];
+
+        // ======================================================================
+        // RENDER FEATURE IMPORTANCE BARS
+        // ======================================================================
+        function renderFeatureImportance() {
+            const container = document.getElementById('featureList');
+            container.innerHTML = FEATURE_IMPORTANCE.map(f => `
+            <div class="feature-item">
+                <div class="feature-item__header">
+                    <span class="feature-item__name">${f.name}${f.current_value !== undefined ? `: ${escapeHtml(f.current_value)}` : ''}</span>
+                    <span class="feature-item__level feature-item__level--${f.level}">${f.label}${f.impact_pct !== undefined ? ` (${f.impact_pct}%)` : ''}</span>
+                </div>
+                <div class="feature-item__bar">
+                    <div class="feature-item__bar-fill feature-item__bar-fill--${f.level}"
+                         style="width:${f.value}%"></div>
+                </div>
+            </div>
+        `).join('');
+        }
+
+        // ======================================================================
+        // HELPER — get numeric value from input
+        // ======================================================================
+        function getVal(id) {
+            return parseFloat(document.getElementById(id).value);
+        }
+
+        function getStr(id) {
+            return document.getElementById(id).value;
+        }
+
+        // ======================================================================
+        // VALIDATE — Kiểm tra dữ liệu nhập (trả về { valid, errors })
+        // Clear separation: dễ thay thế / mở rộng
+        // ======================================================================
+        function validate() {
+            const errors = {};
+            let valid = true;
+
+            // Character
+            const pub_rec = getVal('pub_rec');
+            if (isNaN(pub_rec) || pub_rec < 0) {
+                errors.pub_rec = 'pub_rec phải >= 0';
+                valid = false;
+            }
+
+            const num_tl = getVal('num_tl_90g_dpd_24m');
+            if (isNaN(num_tl) || num_tl < 0) {
+                errors.num_tl_90g_dpd_24m = 'Giá trị phải >= 0';
+                valid = false;
+            }
+
+            // Capacity
+            const annual_inc = getVal('annual_inc');
+            if (isNaN(annual_inc) || annual_inc < 0) {
+                errors.annual_inc = 'Thu nhập phải >= 0';
+                valid = false;
+            }
+
+            const dti = getVal('dti');
+            if (isNaN(dti) || dti < 0 || dti > 100) {
+                errors.dti = 'DTI phải trong khoảng 0–100';
+                valid = false;
+            }
+
+            const loan_amnt = getVal('loan_amnt');
+            if (isNaN(loan_amnt) || loan_amnt < 500) {
+                errors.loan_amnt = 'Số tiền vay tối thiểu là $500';
+                valid = false;
+            }
+
+            // Capital
+            const tot_cur_bal = getVal('tot_cur_bal');
+            if (isNaN(tot_cur_bal) || tot_cur_bal < 0) {
+                errors.tot_cur_bal = 'Tổng dư nợ phải >= 0';
+                valid = false;
+            }
+
+            return { valid, errors };
+        }
+
+        // ======================================================================
+        // SHOW VALIDATION ERRORS IN UI
+        // ======================================================================
+        function showErrors(errors) {
+            // Clear all previous errors
+            document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+
+            for (const [field, msg] of Object.entries(errors)) {
+                const errEl = document.getElementById('err_' + field);
+                if (errEl) errEl.textContent = msg;
+                const inputEl = document.getElementById(field);
+                if (inputEl) inputEl.classList.add('input-error');
+            }
+        }
+
+        function clearFeatureImpactPanel() {
+            FEATURE_IMPORTANCE = [];
+            renderFeatureImportance();
+        }
+
+        // ======================================================================
+        // REAL-TIME BUSINESS RULE WARNINGS
+        // ======================================================================
+        function updateWarnings() {
+            const num_tl = getVal('num_tl_90g_dpd_24m');
+            const dti = getVal('dti');
+            const annual_inc = getVal('annual_inc');
+
+
+
+            // Very high risk — DTI > 45
+            const warnDti = document.getElementById('warn_dti');
+            warnDti.classList.toggle('show', !isNaN(dti) && dti > 45);
+
+            // Below minimum threshold — annual_inc < 25000
+            const warnInc = document.getElementById('warn_inc');
+            warnInc.classList.toggle('show', !isNaN(annual_inc) && annual_inc < 25000);
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function collectRawData() {
+            return {
+                pub_rec: getVal('pub_rec'),
+                num_tl_90g_dpd_24m: getVal('num_tl_90g_dpd_24m'),
+                annual_inc: getVal('annual_inc'),
+                dti: getVal('dti'),
+                loan_amnt: getVal('loan_amnt'),
+                term: getStr('term'),
+                tot_cur_bal: getVal('tot_cur_bal'),
+                home_ownership: getStr('home_ownership'),
+                purpose: getStr('purpose'),
+                verification_status: getStr('verification_status'),
+            };
+        }
+
+        // ======================================================================
+        // DISPLAY RESULT
+        // ======================================================================
+        function displayResult(result) {
+            const placeholder = document.getElementById('resultPlaceholder');
+            const content = document.getElementById('resultContent');
+            const reviewPanel = document.getElementById('resultReview');
+            const card = document.getElementById('resultCard');
+
+            placeholder.style.display = 'none';
+
+            const decision = result.policy.decision;
+
+            // --- REJECT or MANUAL_REVIEW: show review panel, hide prediction ---
+            if (decision === 'REJECT' || decision === 'MANUAL_REVIEW') {
+                content.classList.remove('show');
+                content.style.display = 'none';
+                reviewPanel.style.display = 'block';
+
+                const isReject = decision === 'REJECT';
+                const icon = document.getElementById('reviewIcon');
+                const label = document.getElementById('reviewLabel');
+                const reasonsDiv = document.getElementById('reviewReasons');
+
+                icon.textContent = isReject ? '🚫' : '🔍';
+                label.textContent = isReject ? 'TỪ CHỐI' : 'CẦN THẨM ĐỊNH THỦ CÔNG';
+                label.style.color = isReject ? 'var(--red-400)' : 'var(--yellow-400)';
+                card.style.boxShadow = isReject ? 'var(--shadow-glow-red)' : 'var(--shadow-glow-yellow)';
+
+                const reasonItems = (result.policy.reasons || []).map(
+                    item => `<li>${escapeHtml(item)}</li>`
+                ).join('');
+                const noteItems = (result.policy.notes || []).map(
+                    item => `<li>${escapeHtml(item)}</li>`
+                ).join('');
+
+                reasonsDiv.innerHTML = `
+                    <div style="margin-bottom:8px;"><strong>${isReject ? 'Lý do từ chối:' : 'Lý do cần thẩm định:'}</strong></div>
+                    <ul style="margin:0 0 0 18px;">${reasonItems}</ul>
+                    ${noteItems ? `<div style="margin-top:12px;"><strong>Ghi chú bổ sung</strong></div><ul style="margin:6px 0 0 18px;">${noteItems}</ul>` : ''}
+                `;
+                return;
+            }
+
+            // --- PASS: show prediction result ---
+            reviewPanel.style.display = 'none';
+            content.style.display = '';
+            content.classList.add('show');
+
+            // Determine color class
+            const colorMap = {
+                'Không vỡ nợ': 'low',
+                'Có vỡ nợ': 'high'
+            };
+            const cls = colorMap[result.final_binary_label] || 'low';
+
+            // Remove all result classes, add new one
+            content.className = 'result-content show result--' + cls;
+
+            // Update card glow
+            card.style.boxShadow = `var(--shadow-glow-${cls === 'low' ? 'green' : cls === 'high' ? 'orange' : 'red'})`;
+
+            // Label
+            document.getElementById('resultLabel').textContent = result.final_binary_label;
+
+            // Score ring animation
+            const percentage = Math.round(result.scores.final_score * 100);
+            const circumference = 2 * Math.PI * 46; // radius = 46
+            const offset = circumference - (result.scores.final_score * circumference);
+            const ringFill = document.getElementById('ringFill');
+            // Reset then animate
+            ringFill.style.transition = 'none';
+            ringFill.setAttribute('stroke-dashoffset', circumference);
+            requestAnimationFrame(() => {
+                ringFill.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)';
+                ringFill.setAttribute('stroke-dashoffset', offset);
+            });
+
+            document.getElementById('resultScore').textContent = percentage + '%';
+
+            // Reason
+            const policyReasons = (result.policy.reasons || []).map(
+                item => `<li>${escapeHtml(item)}</li>`
+            ).join('');
+            const noteItems = (result.policy.notes || []).map(
+                item => `<li>${escapeHtml(item)}</li>`
+            ).join('');
+            const imputationItems = (result.imputation_notes || []).map(
+                item => `<li>${escapeHtml(item)}</li>`
+            ).join('');
+
+            const globalRows = (result.global_feature_summary || []).map(item => `
+            <tr>
+                <td>${escapeHtml(item.label_vi || item.field)}</td>
+                <td><strong>${escapeHtml(item.impact_pct)}%</strong></td>
+                <td>${escapeHtml(item.level)}</td>
+            </tr>
+        `).join('');
+
+            document.getElementById('resultReason').innerHTML = `
+            <div><strong>Kết luận:</strong> ${escapeHtml(result.final_binary_message)}</div>
+            <div><strong>Business Logic Notes</strong></div>
+            <ul style="margin:8px 0 0 18px;">${policyReasons || '<li>Không có cảnh báo nghiêm trọng.</li>'}</ul>
+            ${noteItems ? `<div style="margin-top:10px;"><strong>Ghi chú bổ sung</strong></div><ul style="margin:6px 0 0 18px;">${noteItems}</ul>` : ''}
+            ${imputationItems ? `<div style="margin-top:10px;"><strong>Ghi chú dữ liệu trống</strong></div><ul style="margin:6px 0 0 18px;">${imputationItems}</ul>` : ''}
+            <div class="result-subcard">
+                <div class="result-subcard__title">Mức độ tác động chung của mô hình</div>
+                <table class="impact-table">
+                    <tbody>
+                        ${globalRows}
+                    </tbody>
+                </table>
+            </div>
+        `;
+
+            if (Array.isArray(result.raw_feature_impacts) && result.raw_feature_impacts.length > 0) {
+                FEATURE_IMPORTANCE = result.raw_feature_impacts.map(item => ({
+                    name: item.field,
+                    level: item.level,
+                    label: item.label,
+                    value: item.value,
+                    current_value: item.current_value,
+                    impact_pct: item.impact_pct,
+                    effect: item.effect,
+                    detail: item.detail,
+                }));
+                renderFeatureImportance();
+            }
+        }
+
+        // ======================================================================
+        // MAIN FLOW — Form Submit
+        // ======================================================================
+        document.getElementById('creditForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Step 1: Validate
+            const { valid, errors } = validate();
+            showErrors(errors);
+            if (!valid) return;
+
+            // Show loading state
+            const btn = document.getElementById('btnPredict');
+            btn.classList.add('loading');
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(collectRawData())
+                });
+
+                const result = await response.json();
+                if (!response.ok || !result.ok) {
+                    showErrors(result.errors || { request: 'Không thể dự đoán lúc này.' });
+                    return;
+                }
+
+                displayResult(result);
+            } catch (error) {
+                showErrors({ annual_inc: 'Không thể kết nối tới backend dự đoán.' });
+                console.error(error);
+            } finally {
+                btn.classList.remove('loading');
+            }
+        });
+
+        // ======================================================================
+        // REAL-TIME WARNINGS — listen to input changes
+        // ======================================================================
+        ['num_tl_90g_dpd_24m', 'dti', 'annual_inc'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateWarnings);
+        });
+
+        // ======================================================================
+        // INIT
+        // ======================================================================
+        clearFeatureImpactPanel();
+        updateWarnings();
+
+    </script>
+</body>
+
+</html>
