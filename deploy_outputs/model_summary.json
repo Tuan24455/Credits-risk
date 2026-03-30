@@ -1,0 +1,23 @@
+[
+  {
+    "Model": "XGBoost",
+    "Train_time_sec": 23.8147,
+    "Predict_time_sec": 0.5935,
+    "Total_time_sec": 24.4082,
+    "Accuracy": 0.6689344679775302,
+    "ROC_AUC": 0.6653429452434986,
+    "ROC_AUC_Rating": "Duoi nguong",
+    "PR_AUC": 0.3322269341499216,
+    "PR_AUC_Rating": "Duoi nguong",
+    "Recall_BadLoan": 0.5247318235995232,
+    "Recall_BadLoan_Rating": "Duoi nguong",
+    "Precision_BadLoan": 0.3072393601360856,
+    "Precision_BadLoan_Rating": "Duoi nguong",
+    "F1_BadLoan": 0.3875573406325867,
+    "F1_BadLoan_Rating": "Duoi nguong",
+    "KS_Statistic": 0.23531485772494298,
+    "KS_Statistic_Rating": "Duoi nguong",
+    "Gini": 0.33068589048699715,
+    "Gini_Rating": "Duoi nguong"
+  }
+]

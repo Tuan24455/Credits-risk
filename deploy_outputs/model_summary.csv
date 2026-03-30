@@ -1,0 +1,2 @@
+Model,Train_time_sec,Predict_time_sec,Total_time_sec,Accuracy,ROC_AUC,ROC_AUC_Rating,PR_AUC,PR_AUC_Rating,Recall_BadLoan,Recall_BadLoan_Rating,Precision_BadLoan,Precision_BadLoan_Rating,F1_BadLoan,F1_BadLoan_Rating,KS_Statistic,KS_Statistic_Rating,Gini,Gini_Rating
+XGBoost,23.8147,0.5935,24.4082,0.6689344679775302,0.6653429452434986,Duoi nguong,0.3322269341499216,Duoi nguong,0.5247318235995232,Duoi nguong,0.3072393601360856,Duoi nguong,0.3875573406325867,Duoi nguong,0.23531485772494298,Duoi nguong,0.33068589048699715,Duoi nguong

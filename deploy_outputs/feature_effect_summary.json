@@ -1,0 +1,182 @@
+[
+  {
+    "feature": "term_60",
+    "mean_class_0": 0.2035616636276245,
+    "mean_class_1": 0.39223912358283997,
+    "difference_1_minus_0": 0.18867745995521545,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.18772025406360626,
+    "importance_pct": 0.18772025406360626
+  },
+  {
+    "feature": "LTI",
+    "mean_class_0": 0.4564468562602997,
+    "mean_class_1": 0.3845653235912323,
+    "difference_1_minus_0": -0.07188153266906738,
+    "direction_hint": "lower_value_more_risky",
+    "importance": 0.1559002846479416,
+    "importance_pct": 0.1559002846479416
+  },
+  {
+    "feature": "dti",
+    "mean_class_0": 17.81770896911621,
+    "mean_class_1": 20.163732528686523,
+    "difference_1_minus_0": 2.3460235595703125,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.11011689901351929,
+    "importance_pct": 0.11011689901351929
+  },
+  {
+    "feature": "home_ownership_RENT",
+    "mean_class_0": 0.381375789642334,
+    "mean_class_1": 0.46221745014190674,
+    "difference_1_minus_0": 0.08084166049957275,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.07798789441585541,
+    "importance_pct": 0.07798789441585541
+  },
+  {
+    "feature": "verification_status_Verified",
+    "mean_class_0": 0.29575496912002563,
+    "mean_class_1": 0.3719080984592438,
+    "difference_1_minus_0": 0.07615312933921814,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.07496559619903564,
+    "importance_pct": 0.07496559619903564
+  },
+  {
+    "feature": "tot_cur_bal",
+    "mean_class_0": 11.24581241607666,
+    "mean_class_1": 11.062512397766113,
+    "difference_1_minus_0": -0.18330001831054688,
+    "direction_hint": "lower_value_more_risky",
+    "importance": 0.060565460473299026,
+    "importance_pct": 0.060565460473299026
+  },
+  {
+    "feature": "verification_status_Source Verified",
+    "mean_class_0": 0.3827703893184662,
+    "mean_class_1": 0.40695080161094666,
+    "difference_1_minus_0": 0.02418041229248047,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.04994373768568039,
+    "importance_pct": 0.04994373768568039
+  },
+  {
+    "feature": "annual_inc",
+    "mean_class_0": 11.102805137634277,
+    "mean_class_1": 11.012751579284668,
+    "difference_1_minus_0": -0.09005355834960938,
+    "direction_hint": "lower_value_more_risky",
+    "importance": 0.043723881244659424,
+    "importance_pct": 0.043723881244659424
+  },
+  {
+    "feature": "loan_amnt",
+    "mean_class_0": 14136.6103515625,
+    "mean_class_1": 15557.0478515625,
+    "difference_1_minus_0": 1420.4375,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.04320724308490753,
+    "importance_pct": 0.04320724308490753
+  },
+  {
+    "feature": "flag_high_dti",
+    "mean_class_0": 0.02240559086203575,
+    "mean_class_1": 0.03975418582558632,
+    "difference_1_minus_0": 0.017348594963550568,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.03971131145954132,
+    "importance_pct": 0.03971131145954132
+  },
+  {
+    "feature": "purpose_credit_card",
+    "mean_class_0": 0.2276870161294937,
+    "mean_class_1": 0.1858236938714981,
+    "difference_1_minus_0": -0.041863322257995605,
+    "direction_hint": "lower_value_more_risky",
+    "importance": 0.039464548230171204,
+    "importance_pct": 0.039464548230171204
+  },
+  {
+    "feature": "flag_any_derog",
+    "mean_class_0": 0.1632339358329773,
+    "mean_class_1": 0.19322144985198975,
+    "difference_1_minus_0": 0.02998751401901245,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.029868559911847115,
+    "importance_pct": 0.029868559911847115
+  },
+  {
+    "feature": "pub_rec",
+    "mean_class_0": 0.20715677738189697,
+    "mean_class_1": 0.24698899686336517,
+    "difference_1_minus_0": 0.0398322194814682,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.023470208048820496,
+    "importance_pct": 0.023470208048820496
+  },
+  {
+    "feature": "flag_recent_dpd",
+    "mean_class_0": 0.052600592374801636,
+    "mean_class_1": 0.06218487396836281,
+    "difference_1_minus_0": 0.009584281593561172,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.015754491090774536,
+    "importance_pct": 0.015754491090774536
+  },
+  {
+    "feature": "num_tl_90g_dpd_24m",
+    "mean_class_0": 0.08165992796421051,
+    "mean_class_1": 0.0956726148724556,
+    "difference_1_minus_0": 0.014012686908245087,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.015646137297153473,
+    "importance_pct": 0.015646137297153473
+  },
+  {
+    "feature": "purpose_debt_consolidation",
+    "mean_class_0": 0.5713744759559631,
+    "mean_class_1": 0.6142507791519165,
+    "difference_1_minus_0": 0.04287630319595337,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.014781594276428223,
+    "importance_pct": 0.014781594276428223
+  },
+  {
+    "feature": "home_ownership_OWN",
+    "mean_class_0": 0.10654587298631668,
+    "mean_class_1": 0.11124095320701599,
+    "difference_1_minus_0": 0.00469508022069931,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.012485763058066368,
+    "importance_pct": 0.012485763058066368
+  },
+  {
+    "feature": "purpose_home_improvement",
+    "mean_class_0": 0.06704723834991455,
+    "mean_class_1": 0.05788309872150421,
+    "difference_1_minus_0": -0.00916413962841034,
+    "direction_hint": "lower_value_more_risky",
+    "importance": 0.0033150387462228537,
+    "importance_pct": 0.0033150387462228537
+  },
+  {
+    "feature": "flag_very_high_dti",
+    "mean_class_0": 0.002782264491543174,
+    "mean_class_1": 0.004762680735439062,
+    "difference_1_minus_0": 0.0019804162438958883,
+    "direction_hint": "higher_value_more_risky",
+    "importance": 0.0013711194042116404,
+    "importance_pct": 0.0013711194042116404
+  },
+  {
+    "feature": "home_ownership_OTHER",
+    "mean_class_0": 0.0003622982185333967,
+    "mean_class_1": 0.0003165809321217239,
+    "difference_1_minus_0": -4.571728641167283e-05,
+    "direction_hint": "lower_value_more_risky",
+    "importance": 0.0,
+    "importance_pct": 0.0
+  }
+]

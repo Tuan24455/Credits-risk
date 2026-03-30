@@ -1,0 +1,122 @@
+[
+  {
+    "feature": "term_60",
+    "importance": 0.18772025406360626,
+    "importance_pct": 0.18772025406360626,
+    "cumulative_importance_pct": 0.18772025406360626
+  },
+  {
+    "feature": "LTI",
+    "importance": 0.1559002846479416,
+    "importance_pct": 0.1559002846479416,
+    "cumulative_importance_pct": 0.34362053871154785
+  },
+  {
+    "feature": "dti",
+    "importance": 0.11011689901351929,
+    "importance_pct": 0.11011689901351929,
+    "cumulative_importance_pct": 0.45373743772506714
+  },
+  {
+    "feature": "home_ownership_RENT",
+    "importance": 0.07798789441585541,
+    "importance_pct": 0.07798789441585541,
+    "cumulative_importance_pct": 0.5317253470420837
+  },
+  {
+    "feature": "verification_status_Verified",
+    "importance": 0.07496559619903564,
+    "importance_pct": 0.07496559619903564,
+    "cumulative_importance_pct": 0.6066909432411194
+  },
+  {
+    "feature": "tot_cur_bal",
+    "importance": 0.060565460473299026,
+    "importance_pct": 0.060565460473299026,
+    "cumulative_importance_pct": 0.6672564148902893
+  },
+  {
+    "feature": "verification_status_Source Verified",
+    "importance": 0.04994373768568039,
+    "importance_pct": 0.04994373768568039,
+    "cumulative_importance_pct": 0.7172001600265503
+  },
+  {
+    "feature": "annual_inc",
+    "importance": 0.043723881244659424,
+    "importance_pct": 0.043723881244659424,
+    "cumulative_importance_pct": 0.7609240412712097
+  },
+  {
+    "feature": "loan_amnt",
+    "importance": 0.04320724308490753,
+    "importance_pct": 0.04320724308490753,
+    "cumulative_importance_pct": 0.804131269454956
+  },
+  {
+    "feature": "flag_high_dti",
+    "importance": 0.03971131145954132,
+    "importance_pct": 0.03971131145954132,
+    "cumulative_importance_pct": 0.8438425660133362
+  },
+  {
+    "feature": "purpose_credit_card",
+    "importance": 0.039464548230171204,
+    "importance_pct": 0.039464548230171204,
+    "cumulative_importance_pct": 0.8833070993423462
+  },
+  {
+    "feature": "flag_any_derog",
+    "importance": 0.029868559911847115,
+    "importance_pct": 0.029868559911847115,
+    "cumulative_importance_pct": 0.913175642490387
+  },
+  {
+    "feature": "pub_rec",
+    "importance": 0.023470208048820496,
+    "importance_pct": 0.023470208048820496,
+    "cumulative_importance_pct": 0.9366458654403687
+  },
+  {
+    "feature": "flag_recent_dpd",
+    "importance": 0.015754491090774536,
+    "importance_pct": 0.015754491090774536,
+    "cumulative_importance_pct": 0.9524003267288208
+  },
+  {
+    "feature": "num_tl_90g_dpd_24m",
+    "importance": 0.015646137297153473,
+    "importance_pct": 0.015646137297153473,
+    "cumulative_importance_pct": 0.9680464863777161
+  },
+  {
+    "feature": "purpose_debt_consolidation",
+    "importance": 0.014781594276428223,
+    "importance_pct": 0.014781594276428223,
+    "cumulative_importance_pct": 0.9828280806541443
+  },
+  {
+    "feature": "home_ownership_OWN",
+    "importance": 0.012485763058066368,
+    "importance_pct": 0.012485763058066368,
+    "cumulative_importance_pct": 0.995313823223114
+  },
+  {
+    "feature": "purpose_home_improvement",
+    "importance": 0.0033150387462228537,
+    "importance_pct": 0.0033150387462228537,
+    "cumulative_importance_pct": 0.9986288547515869
+  },
+  {
+    "feature": "flag_very_high_dti",
+    "importance": 0.0013711194042116404,
+    "importance_pct": 0.0013711194042116404,
+    "cumulative_importance_pct": 1.0
+  },
+  {
+    "feature": "home_ownership_OTHER",
+    "importance": 0.0,
+    "importance_pct": 0.0,
+    "cumulative_importance_pct": 1.0
+  }
+]

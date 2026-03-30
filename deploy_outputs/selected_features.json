@@ -1,0 +1,19 @@
+{
+  "selected_features": [
+    "term_60",
+    "LTI",
+    "dti",
+    "home_ownership_RENT",
+    "verification_status_Verified",
+    "tot_cur_bal",
+    "verification_status_Source Verified",
+    "annual_inc",
+    "loan_amnt",
+    "flag_high_dti",
+    "purpose_credit_card",
+    "flag_any_derog",
+    "pub_rec",
+    "flag_recent_dpd",
+    "num_tl_90g_dpd_24m"
+  ]
+}
